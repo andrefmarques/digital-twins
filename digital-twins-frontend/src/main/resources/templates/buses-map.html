@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Simple Markers</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script th:inline="javascript">
+        function initMap() {
+            var options = {
+                zoom: 12,
+                center: {
+                    lat: 41.14961,
+                    lng: -8.61099
+                }
+            }
+
+            var map = new google.maps.Map(document.getElementById('map'), options);
+
+            //------------------------------------------------ Add Bus info here -------------------------------------------------------
+            /*<![CDATA[*/
+
+            var buses = /*[[${busIds}]]*/ null;
+            var loc = /*[[${location_rt}]]*/ null;
+
+            /*]]>*/
+
+            console.log(buses);
+            console.log(loc);
+
+            for (var i in buses) {
+                console.log(buses[i]);
+                console.log(loc[buses[i]].latitude);
+                console.log(loc[buses[i]].longitude);
+
+                addMarker({
+                    coords: {
+                        lat: parseFloat(loc[buses[i]].latitude),
+                        lng: parseFloat(loc[buses[i]].longitude)
+                    },
+                    id: buses[i]
+                });
+            }
+
+
+            /*var buses = "${busIds}"
+
+            for (var i = 0; i < buses.length; i++) {
+                addMarker({
+                    coords: {
+                        lat: parseFloat("${location_rt.get(buses[i]).getLatitude()}"),
+                        lng: parseFloat("${location_rt.get(buses[i]).getLongitude()}")
+                    },
+                    id: buses[i]
+                });
+            }*/
+
+            //--------------------------------------------------------------------------------------------------------------------------
+            function addMarker(props) {
+                var marker_1 = new google.maps.Marker({
+                    position: props.coords,
+                    map: map,
+                    icon: "images/bus_icon.png"
+                });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: '<h1>' + props.id + '</h1>'
+                });
+
+                marker_1.addListener('click', function() {
+                    infoWindow.open(map, marker_1);
+                });
+            }
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiERQX7_oot-wj_LQThQKW_u7plw7RxXU&callback=initMap">
+    </script>
+</body>
+
+</html>

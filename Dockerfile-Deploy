@@ -1,0 +1,9 @@
+#mvn used inside jenkins
+
+FROM maven:3-jdk-8
+
+# this ensures the maven configuration directory is there
+RUN mkdir -p /root/.m2
+
+# this copies the maven settings.xml
+COPY settings.xml /root/settings.xml

@@ -1,0 +1,102 @@
+version: "3.7"
+services:
+
+  esp41-digital-twins-frontend:
+    image: 192.168.160.99:5000/esp41-digital-twins-frontend
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    container_name: esp41-digital-twins-frontend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.103:3307/esp41bus?useSSL=false
+    ports:
+      - "41080:8080"
+      - "41048:4848"
+    expose:
+      - "41080"
+      - "41048"
+    networks:
+      - esp41-network
+
+  esp41-digital-twins-average-speed:
+    image: 192.168.160.99:5000/esp41-digital-twins-average-speed
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    container_name: esp41-digital-twins-average-speed
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.103:3307/esp41averagespeed?useSSL=false
+    ports:
+      - "41001:8080"
+    expose:
+      - "41001"
+    networks:
+      - esp41-network
+
+  esp41-digital-twins-bus-routes:
+    image: 192.168.160.99:5000/esp41-digital-twins-bus-routes
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    container_name: esp41-digital-twins-bus-routes
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.103:3307/esp41busroutes?useSSL=false
+    ports:
+      - "41002:8080"
+    expose:
+      - "41002"
+    networks:
+      - esp41-network
+
+  esp41-digital-twins-location-history:
+    image: 192.168.160.99:5000/esp41-digital-twins-location-history
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    container_name: esp41-digital-twins-location-history
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.103:3307/esp41location?useSSL=false
+    ports:
+      - "41003:8080"
+    expose:
+      - "41003"
+    networks:
+      - esp41-network
+
+  esp41-digital-twins-location-rt:
+    image: 192.168.160.99:5000/esp41-digital-twins-location-rt
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    container_name: esp41-digital-twins-location-rt
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.160.103:3307/esp41bus?useSSL=false
+    ports:
+      - "41004:8080"
+    expose:
+      - "41004"
+    networks:
+      - esp41-network
+
+  esp41-digital-twins-bus-producer:
+    image: 192.168.160.99:5000/esp41-digital-twins-bus-producer
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    container_name: esp41-digital-twins-bus-producer
+    ports:
+      - "41005:8080"
+    expose:
+      - "41005"
+    networks:
+      - esp41-network
+
+networks:
+  esp41-network:
+    driver: bridge

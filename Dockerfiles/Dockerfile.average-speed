@@ -1,0 +1,5 @@
+FROM adoptopenjdk/openjdk8-openj9:alpine-slim
+RUN mkdir /opt/app
+WORKDIR /opt/app
+COPY digital-twins-average-speed.jar /opt/app/digital-twins.jar
+CMD ["java", "-jar", "digital-twins.jar"]
